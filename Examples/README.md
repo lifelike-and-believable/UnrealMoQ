@@ -115,7 +115,7 @@ When creating your own implementations:
 For more examples and patterns, see:
 - [Integration Guide](../INTEGRATION_GUIDE.md)
 - [README](../README.md)
-- [moq-ffi examples](../ThirdParty/moq-ffi/examples/)
+- [moq-ffi examples](../External/moq-ffi/examples/)
 
 ## Support
 

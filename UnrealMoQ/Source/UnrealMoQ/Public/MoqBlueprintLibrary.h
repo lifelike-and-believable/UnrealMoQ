@@ -6,6 +6,8 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "MoqBlueprintLibrary.generated.h"
 
+class UMoqClient;
+
 /**
  * Blueprint function library for MoQ utilities
  */
@@ -44,4 +46,12 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category = "MoQ|Utilities")
 	static TArray<uint8> StringToBytes(const FString& Text);
+
+	/**
+	 * Create a new MoQ client UObject that can be reused across Blueprint graphs
+	 * @param Outer Owning object for the new client (defaults to transient package if not provided)
+	 * @return New MoQ client instance
+	 */
+	UFUNCTION(BlueprintCallable, Category = "MoQ|Client", meta = (DisplayName = "Create MoQ Client", DefaultToSelf = "Outer"))
+	static UMoqClient* CreateMoqClient(UObject* Outer = nullptr);
 };

@@ -42,19 +42,28 @@ UnrealMoQ is a cross-platform Unreal Engine plugin that provides a Blueprint and
    git clone --recursive https://github.com/lifelike-and-believable/UnrealMoQ.git
    ```
 
-2. **Build the moq-ffi library**:
+2. **Build the moq-ffi library** (either manually or via the provided task):
+
+   **Recommended (VS Code task):**
+   ```
+   Terminal → Run Task… → "UnrealMoQ: Build moq-ffi"
+   ```
+
+   **Manual build:**
 
    **Windows (PowerShell):**
    ```powershell
-   cd UnrealMoQ/ThirdParty/moq-ffi/moq_ffi
+   cd UnrealMoQ/External/moq-ffi/moq_ffi
    cargo build --release --features with_moq_draft07
    ```
 
    **Linux/macOS:**
    ```bash
-   cd UnrealMoQ/ThirdParty/moq-ffi/moq_ffi
+   cd UnrealMoQ/External/moq-ffi/moq_ffi
    cargo build --release --features with_moq_draft07
    ```
+
+   After building, run `pwsh scripts/build-moqffi.ps1` to sync the headers and static libraries into `UnrealMoQ/ThirdParty/moq-ffi`.
 
    > **Note**: Use `with_moq_draft07` for CloudFlare's production relay, or `with_moq` for IETF Draft 14.
 
@@ -79,7 +88,7 @@ UnrealMoQ is a cross-platform Unreal Engine plugin that provides a Blueprint and
 
 1. **Create a MoQ Client**:
    - In your Blueprint, add a variable of type `MoqClient` (Object Reference)
-   - Use "Construct Object from Class" node with `MoqClient` class
+   - Use the "Create MoQ Client" node (from the MoQ blueprint library) and assign the result to your variable
 
 2. **Connect to a Relay**:
    - Call `Connect` on the client with a relay URL (e.g., `https://relay.cloudflare.mediaoverquic.com`)
@@ -310,20 +319,56 @@ Utility functions for MoQ operations.
 To update the moq-ffi submodule to the latest version:
 
 ```bash
-cd ThirdParty/moq-ffi
+cd External/moq-ffi
 git pull origin main
 cd ../..
-git add ThirdParty/moq-ffi
+git add External/moq-ffi
 git commit -m "Update moq-ffi submodule"
 ```
 
-Then rebuild the moq-ffi library as described in the Installation section.
+Then rebuild the moq-ffi library and run `scripts/build-moqffi.ps1` (or the "UnrealMoQ: Build moq-ffi" task) to resync headers/libs.
+
+### Automation Tests
+
+The plugin ships with Unreal Automation tests (editor context) that exercise both local helpers and the live Cloudflare relay:
+
+- `UnrealMoQ.BlueprintLibrary.StringConversions` – validates UTF-8 encode/decode helpers
+- `UnrealMoQ.Client.Creation` – covers the Blueprint-friendly client factory
+- `UnrealMoQ.Network.CloudflarePublishSubscribe` – connects to <https://relay.cloudflare.mediaoverquic.com>, announces a namespace, publishes text + binary payloads, and verifies a subscriber receives both
+
+#### Running the test suite
+
+1. **From the Unreal Editor**
+   - Window → Developer Tools → Session Frontend → Automation
+   - Filter for `UnrealMoQ.*`
+   - Run the desired tests (e.g., `UnrealMoQ.Network.CloudflarePublishSubscribe` when you want the live relay check)
+
+2. **Headless command line** (replace paths with your project/engine):
+
+   ```powershell
+   "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" "PATH\TO\PROJECT\YourProject.uproject" `
+       -ExecCmds="Automation RunTests UnrealMoQ.*;Quit" `
+       -ReportOutputPath="PATH\TO\REPORTS" `
+       -TestExit="Automation Test Queue Empty"
+   ```
+
+The network test assumes `moq-ffi` was built with `--features with_moq_draft07` (Cloudflare’s production relay). By default it targets the public relay URL, but you can customize or disable it via environment variables:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `MOQ_AUTOMATION_RELAY_URL` | `https://relay.cloudflare.mediaoverquic.com` | Override the relay endpoint |
+| `MOQ_AUTOMATION_NAMESPACE_PREFIX` | `unrealmoq-e2e` | Prefix for temporary namespaces |
+| `MOQ_AUTOMATION_TRACK_PREFIX` | `track` | Prefix for test tracks |
+| `MOQ_AUTOMATION_ENABLE_NETWORK` | `1` | Set to `0`/`false` to skip the live test |
+| `MOQ_AUTOMATION_SKIP_NETWORK` | _(unset)_ | Set to `1`/`true` to force skipping the live test |
+
+The tests are compiled when `WITH_DEV_AUTOMATION_TESTS` is enabled (default for Editor builds), making it easy to catch regressions as the IETF spec evolves.
 
 ## Troubleshooting
 
 ### Plugin fails to load
 
-- **Ensure moq-ffi is built**: Check that `moq_ffi.dll` (Windows), `libmoq_ffi.so` (Linux), or `libmoq_ffi.dylib` (macOS) exists in `ThirdParty/moq-ffi/moq_ffi/target/release/`
+- **Ensure moq-ffi is built**: After running `scripts/build-moqffi.ps1`, verify that the platform-specific static library exists under `UnrealMoQ/ThirdParty/moq-ffi/lib/<Platform>/` (e.g., `lib/Win64/moq_ffi.lib`).
 - **Check Rust toolchain**: Verify Rust is installed with `rustc --version`
 - **Rebuild**: Try cleaning and rebuilding the moq-ffi library
 

@@ -32,3 +32,6 @@ DerivedDataCache/
 
 # Built plugin packages
 *.uplugin.bak
+
+# Generated moq-ffi artifacts
+UnrealMoQ/ThirdParty/moq-ffi/

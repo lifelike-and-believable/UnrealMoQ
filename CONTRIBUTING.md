@@ -62,8 +62,9 @@ git clone --recursive https://github.com/lifelike-and-believable/UnrealMoQ.git
 cd UnrealMoQ
 
 # Build moq-ffi
-cd ThirdParty/moq-ffi/moq_ffi
+cd External/moq-ffi/moq_ffi
 cargo build --release --features with_moq_draft07
+pwsh ../../scripts/build-moqffi.ps1
 cd ../../..
 ```
 
@@ -196,10 +197,10 @@ When updating the moq-ffi dependency:
 1. **Test with new version** locally
 2. **Update submodule**:
    ```bash
-   cd ThirdParty/moq-ffi
+   cd External/moq-ffi
    git pull origin main
    cd ../..
-   git add ThirdParty/moq-ffi
+   git add External/moq-ffi
    ```
 3. **Rebuild library** for all platforms
 4. **Test plugin** with new version

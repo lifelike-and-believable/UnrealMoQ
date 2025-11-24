@@ -5,12 +5,11 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "moq_ffi.h"
+#include "MoqTypes.h"
 #include "MoqPublisher.generated.h"
 
 // Forward declarations
 class UMoqClient;
-enum class EMoqDeliveryMode : uint8;
-struct FMoqResult;
 
 /**
  * UMoqPublisher - Unreal wrapper for MoQ publisher functionality

@@ -2,6 +2,7 @@
 
 #include "MoqSubscriber.h"
 #include "MoqClient.h"
+#include "Async/Async.h"
 
 UMoqSubscriber::UMoqSubscriber()
 	: SubscriberHandle(nullptr)

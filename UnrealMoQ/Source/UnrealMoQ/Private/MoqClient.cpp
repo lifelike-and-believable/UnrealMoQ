@@ -3,6 +3,7 @@
 #include "MoqClient.h"
 #include "MoqPublisher.h"
 #include "MoqSubscriber.h"
+#include "Async/Async.h"
 
 UMoqClient::UMoqClient()
 	: ClientHandle(nullptr)

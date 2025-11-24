@@ -55,28 +55,32 @@ The moq-ffi library must be built before using the plugin. Choose the appropriat
 
 **Windows (PowerShell):**
 ```powershell
-cd Plugins/UnrealMoQ/ThirdParty/moq-ffi/moq_ffi
+cd Plugins/UnrealMoQ/External/moq-ffi/moq_ffi
 cargo build --release --features with_moq_draft07
+pwsh ../../scripts/build-moqffi.ps1
 ```
 
 **Linux/macOS:**
 ```bash
-cd Plugins/UnrealMoQ/ThirdParty/moq-ffi/moq_ffi
+cd Plugins/UnrealMoQ/External/moq-ffi/moq_ffi
 cargo build --release --features with_moq_draft07
+pwsh ../../scripts/build-moqffi.ps1
 ```
 
 ### Draft 14 (Latest IETF Specification)
 
 **Windows (PowerShell):**
 ```powershell
-cd Plugins/UnrealMoQ/ThirdParty/moq-ffi/moq_ffi
+cd Plugins/UnrealMoQ/External/moq-ffi/moq_ffi
 cargo build --release --features with_moq
+pwsh ../../scripts/build-moqffi.ps1
 ```
 
 **Linux/macOS:**
 ```bash
-cd Plugins/UnrealMoQ/ThirdParty/moq-ffi/moq_ffi
+cd Plugins/UnrealMoQ/External/moq-ffi/moq_ffi
 cargo build --release --features with_moq
+pwsh ../../scripts/build-moqffi.ps1
 ```
 
 ### Verifying the Build
@@ -84,17 +88,13 @@ cargo build --release --features with_moq
 After building, verify that the library files exist:
 
 **Windows:**
-- `ThirdParty/moq-ffi/moq_ffi/target/release/moq_ffi.dll`
-- `ThirdParty/moq-ffi/moq_ffi/target/release/moq_ffi.dll.lib`
-- `ThirdParty/moq-ffi/moq_ffi/target/release/moq_ffi.pdb`
+- `ThirdParty/moq-ffi/lib/Win64/moq_ffi.lib`
 
 **Linux:**
-- `ThirdParty/moq-ffi/moq_ffi/target/release/libmoq_ffi.so`
-- `ThirdParty/moq-ffi/moq_ffi/target/release/libmoq_ffi.a`
+- `ThirdParty/moq-ffi/lib/Linux/libmoq_ffi.a`
 
 **macOS:**
-- `ThirdParty/moq-ffi/moq_ffi/target/release/libmoq_ffi.dylib`
-- `ThirdParty/moq-ffi/moq_ffi/target/release/libmoq_ffi.a`
+- `ThirdParty/moq-ffi/lib/Mac/libmoq_ffi.a`
 
 ## Plugin Integration
 
@@ -174,7 +174,7 @@ PublicDependencyModuleNames.AddRange(new string[]
 **Step 3: Setup Connection (BeginPlay)**
 ```
 BeginPlay
-└─> Construct Object from Class (MoqClient)
+└─> Create MoQ Client (Blueprint Node)
     └─> Store in MoqClient variable
     └─> Bind Event to On Connection State Changed
     └─> Connect (URL: "https://relay.cloudflare.mediaoverquic.com")
@@ -475,7 +475,7 @@ For cross-platform development:
 **Cause**: The native library wasn't built or isn't in the expected location.
 
 **Solution**:
-1. Verify the library file exists in `ThirdParty/moq-ffi/moq_ffi/target/release/`
+1. Verify the platform-specific library file exists in `ThirdParty/moq-ffi/lib/<Platform>/`
 2. Rebuild with: `cargo build --release --features with_moq_draft07`
 3. Check build errors in the Cargo output
 
