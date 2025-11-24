@@ -319,6 +319,31 @@ git commit -m "Update moq-ffi submodule"
 
 Then rebuild the moq-ffi library as described in the Installation section.
 
+### Testing
+
+UnrealMoQ includes a comprehensive test suite with 80%+ code coverage.
+
+**Running Tests:**
+
+1. **In Unreal Engine Editor**:
+   - Open `Window` → `Developer Tools` → `Session Frontend`
+   - Go to the `Automation` tab
+   - Filter for "UnrealMoQ" tests
+   - Select and run tests
+
+2. **Via Command Line**:
+   ```bash
+   UnrealEditor-Cmd "YourProject.uproject" -ExecCmds="Automation RunTests UnrealMoQ" -unattended -nopause -NullRHI -log
+   ```
+
+**Test Coverage:**
+- 60 comprehensive automation tests
+- Coverage across all major components (Client, Publisher, Subscriber, Blueprint Library)
+- Unit tests for API contracts, error handling, and data conversion
+- No network or relay server required
+
+For detailed testing documentation, see [Source/UnrealMoQTests/README.md](Source/UnrealMoQTests/README.md).
+
 ## Troubleshooting
 
 ### Plugin fails to load
