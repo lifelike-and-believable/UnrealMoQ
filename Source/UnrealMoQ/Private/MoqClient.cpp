@@ -187,8 +187,14 @@ UMoqSubscriber* UMoqClient::Subscribe(const FString& Namespace, const FString& T
 
 void UMoqClient::OnConnectionStateChangedCallback(void* UserData, MoqConnectionState State)
 {
+	if (!UserData)
+	{
+		return;
+	}
+	
 	UMoqClient* Client = static_cast<UMoqClient*>(UserData);
-	if (!Client)
+	// Validate that the object is still valid
+	if (!IsValid(Client))
 	{
 		return;
 	}
@@ -228,8 +234,14 @@ void UMoqClient::OnConnectionStateChangedCallback(void* UserData, MoqConnectionS
 
 void UMoqClient::OnTrackAnnouncedCallback(void* UserData, const char* Namespace, const char* TrackName)
 {
+	if (!UserData)
+	{
+		return;
+	}
+	
 	UMoqClient* Client = static_cast<UMoqClient*>(UserData);
-	if (!Client)
+	// Validate that the object is still valid
+	if (!IsValid(Client))
 	{
 		return;
 	}

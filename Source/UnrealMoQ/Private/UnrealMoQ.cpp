@@ -41,7 +41,15 @@ void FUnrealMoQModule::StartupModule()
 	MoqFFILibraryPath = FPaths::Combine(*BaseDir, TEXT("ThirdParty/moq-ffi/moq_ffi/target/release/libmoq_ffi.dylib"));
 #endif
 
-	MoqFFIDllHandle = !MoqFFILibraryPath.IsEmpty() ? FPlatformProcess::GetDllHandle(*MoqFFILibraryPath) : nullptr;
+	// Load the library if path is valid
+	if (!MoqFFILibraryPath.IsEmpty())
+	{
+		MoqFFIDllHandle = FPlatformProcess::GetDllHandle(*MoqFFILibraryPath);
+	}
+	else
+	{
+		MoqFFIDllHandle = nullptr;
+	}
 
 	if (MoqFFIDllHandle)
 	{

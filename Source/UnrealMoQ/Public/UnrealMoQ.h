@@ -14,6 +14,10 @@ public:
 	virtual void ShutdownModule() override;
 
 private:
-	/** Handle to the loaded moq_ffi DLL */
+	/** 
+	 * Handle to the loaded moq_ffi DLL/SO/DYLIB
+	 * Initialized to nullptr on construction
+	 * Loaded during StartupModule and freed during ShutdownModule
+	 */
 	void* MoqFFIDllHandle;
 };

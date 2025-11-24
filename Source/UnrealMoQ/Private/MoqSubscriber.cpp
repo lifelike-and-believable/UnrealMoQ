@@ -34,8 +34,14 @@ void UMoqSubscriber::InitializeFromHandle(MoqSubscriber* Handle)
 
 void UMoqSubscriber::OnDataReceivedCallback(void* UserData, const uint8_t* Data, size_t DataLen)
 {
+	if (!UserData || !Data || DataLen == 0)
+	{
+		return;
+	}
+	
 	UMoqSubscriber* Subscriber = static_cast<UMoqSubscriber*>(UserData);
-	if (!Subscriber || !Data || DataLen == 0)
+	// Validate that the object is still valid
+	if (!IsValid(Subscriber))
 	{
 		return;
 	}
