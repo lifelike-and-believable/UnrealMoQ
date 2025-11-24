@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "MoqSubscriber.h"
+#include "MoqClient.h"
 
 UMoqSubscriber::UMoqSubscriber()
 	: SubscriberHandle(nullptr)

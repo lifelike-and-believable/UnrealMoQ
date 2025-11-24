@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "MoqClient.h"
 #include "moq_ffi.h"
 #include "MoqSubscriber.generated.h"
+
+// Forward declarations
+class UMoqClient;
 
 /** Delegate for data received events */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMoqDataReceived, const TArray<uint8>&, Data);

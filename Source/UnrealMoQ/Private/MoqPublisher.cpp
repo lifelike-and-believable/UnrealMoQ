@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "MoqPublisher.h"
+#include "MoqClient.h"
 
 UMoqPublisher::UMoqPublisher()
 	: PublisherHandle(nullptr)
