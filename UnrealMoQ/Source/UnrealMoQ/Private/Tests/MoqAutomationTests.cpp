@@ -15,8 +15,13 @@
 #include "UObject/Package.h"
 #include "UObject/StrongObjectPtr.h"
 #include "MoqAutomationTestHelpers.h"
+#include "Misc/CommandLine.h"
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryStringConversionTest, "UnrealMoQ.BlueprintLibrary.StringConversions", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqStringUtf8RoundTripTest, "UnrealMoQ.BlueprintLibrary.StringConversions.RoundTripUnicode", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqStringAsciiRoundTripTest, "UnrealMoQ.BlueprintLibrary.StringConversions.RoundTripASCII", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqStringRejectInvalidUtf8Test, "UnrealMoQ.BlueprintLibrary.StringConversions.RejectInvalidUtf8", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqStringRejectTruncatedUtf8Test, "UnrealMoQ.BlueprintLibrary.StringConversions.RejectTruncatedUtf8", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqStringEmptyInputTest, "UnrealMoQ.BlueprintLibrary.StringConversions.EmptyInput", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreationAutomationTest, "UnrealMoQ.Client.Creation", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 IMPLEMENT_CUSTOM_SIMPLE_AUTOMATION_TEST(FMoqCloudflarePublishSubscribeTest, FAutomationTestBase, "UnrealMoQ.Network.CloudflarePublishSubscribe", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 
@@ -52,8 +57,19 @@ struct FMoqRelayTestConfig
 		const FString EnableEnv = FPlatformMisc::GetEnvironmentVariable(TEXT("MOQ_AUTOMATION_ENABLE_NETWORK"));
 		if (!EnableEnv.IsEmpty())
 		{
-			const bool bRequestedEnable = !EnableEnv.Equals(TEXT("0"), ESearchCase::IgnoreCase) && !EnableEnv.Equals(TEXT("false"), ESearchCase::IgnoreCase);
-			Config.bIsEnabled = bRequestedEnable;
+			if (EnableEnv.Equals(TEXT("0"), ESearchCase::IgnoreCase) || EnableEnv.Equals(TEXT("false"), ESearchCase::IgnoreCase))
+			{
+				Config.bIsEnabled = false;
+			}
+			else if (EnableEnv.Equals(TEXT("1"), ESearchCase::IgnoreCase) || EnableEnv.Equals(TEXT("true"), ESearchCase::IgnoreCase))
+			{
+				Config.bIsEnabled = true;
+			}
+		}
+
+		if (FParse::Param(FCommandLine::Get(), TEXT("MoqEnableNetworkAutomation")))
+		{
+			Config.bIsEnabled = true;
 		}
 
 		const FString SkipEnv = FPlatformMisc::GetEnvironmentVariable(TEXT("MOQ_AUTOMATION_SKIP_NETWORK"));
@@ -64,6 +80,11 @@ struct FMoqRelayTestConfig
 			{
 				Config.bIsEnabled = false;
 			}
+		}
+
+		if (FParse::Param(FCommandLine::Get(), TEXT("MoqSkipNetworkAutomation")) || FParse::Param(FCommandLine::Get(), TEXT("MoqDisableNetworkAutomation")))
+		{
+			Config.bIsEnabled = false;
 		}
 
 		return Config;
@@ -225,47 +246,70 @@ private:
 	FString TimeoutError;
 };
 
-bool FMoqBlueprintLibraryStringConversionTest::RunTest(const FString& Parameters)
+bool FMoqStringUtf8RoundTripTest::RunTest(const FString& Parameters)
 {
-	const FString Original = TEXT("MoQ 🚀 こんにちは");
-	const TArray<uint8> Bytes = UMoqBlueprintLibrary::StringToBytes(Original);
+	const FString Input = TEXT("MoQ 🚀 こんにちは");
+	const TArray<uint8> Bytes = UMoqBlueprintLibrary::StringToBytes(Input);
 
-	if (!TestTrue(TEXT("StringToBytes should return data"), Bytes.Num() > 0))
-	{
-		return false;
-	}
+	bool bSuccess = true;
+	bSuccess &= TestTrue(TEXT("StringToBytes should produce data for Unicode input"), Bytes.Num() > 0);
 
 	const FString RoundTripped = UMoqBlueprintLibrary::BytesToString(Bytes);
-	if (TestEqual(TEXT("BytesToString should decode UTF-8 payload"), RoundTripped, Original))
+	bSuccess &= TestEqual(TEXT("BytesToString should reproduce the original Unicode string"), RoundTripped, Input);
+
+	if (bSuccess)
 	{
 		UE_LOG(LogTemp, Display, TEXT("BytesToString: Successfully round-tripped %d-byte UTF-8 payload"), Bytes.Num());
 	}
 
-	const FString SimpleAscii = TEXT("Media over QUIC");
-	const TArray<uint8> SimpleBytes = UMoqBlueprintLibrary::StringToBytes(SimpleAscii);
-	if (TestEqual(TEXT("BytesToString should decode ASCII payload"), UMoqBlueprintLibrary::BytesToString(SimpleBytes), SimpleAscii))
+	return bSuccess;
+}
+
+bool FMoqStringAsciiRoundTripTest::RunTest(const FString& Parameters)
+{
+	const FString Input = TEXT("Media over QUIC");
+	const TArray<uint8> Bytes = UMoqBlueprintLibrary::StringToBytes(Input);
+	const FString RoundTripped = UMoqBlueprintLibrary::BytesToString(Bytes);
+
+	const bool bSuccess = TestEqual(TEXT("ASCII payloads should round-trip losslessly"), RoundTripped, Input);
+	if (bSuccess)
 	{
 		UE_LOG(LogTemp, Display, TEXT("BytesToString: ASCII sanity check succeeded"));
 	}
 
-	TArray<uint8> InvalidBytes = { 0xFF, 0xFE, 0xFD };
-	const FString InvalidResult = UMoqBlueprintLibrary::BytesToString(InvalidBytes);
-	if (TestTrue(TEXT("BytesToString should reject invalid UTF-8"), InvalidResult.IsEmpty()))
+	return bSuccess;
+}
+
+bool FMoqStringRejectInvalidUtf8Test::RunTest(const FString& Parameters)
+{
+	const TArray<uint8> InvalidBytes = { 0xFF, 0xFE, 0xFD };
+	const FString Result = UMoqBlueprintLibrary::BytesToString(InvalidBytes);
+	const bool bRejected = TestTrue(TEXT("BytesToString should reject invalid UTF-8 sequences"), Result.IsEmpty());
+
+	if (bRejected)
 	{
 		UE_LOG(LogTemp, Display, TEXT("BytesToString: Invalid UTF-8 payload correctly rejected"));
 	}
 
-	TArray<uint8> TruncatedBytes = { 0xE2, 0x82 };
-	TestTrue(TEXT("BytesToString should reject truncated UTF-8"), UMoqBlueprintLibrary::BytesToString(TruncatedBytes).IsEmpty());
+	return bRejected;
+}
 
+bool FMoqStringRejectTruncatedUtf8Test::RunTest(const FString& Parameters)
+{
+	const TArray<uint8> TruncatedBytes = { 0xE2, 0x82 };
+	return TestTrue(TEXT("BytesToString should reject truncated UTF-8 sequences"), UMoqBlueprintLibrary::BytesToString(TruncatedBytes).IsEmpty());
+}
+
+bool FMoqStringEmptyInputTest::RunTest(const FString& Parameters)
+{
 	TArray<uint8> EmptyBytes;
-	const FString EmptyResult = UMoqBlueprintLibrary::BytesToString(EmptyBytes);
-	TestTrue(TEXT("BytesToString should handle empty arrays"), EmptyResult.IsEmpty());
+	bool bSuccess = true;
+	bSuccess &= TestTrue(TEXT("BytesToString should return an empty string for empty byte arrays"), UMoqBlueprintLibrary::BytesToString(EmptyBytes).IsEmpty());
 
 	const TArray<uint8> EmptyFromString = UMoqBlueprintLibrary::StringToBytes(TEXT(""));
-	TestTrue(TEXT("StringToBytes should return empty data for empty string"), EmptyFromString.Num() == 0);
+	bSuccess &= TestEqual(TEXT("StringToBytes should return zero bytes for empty strings"), 0, EmptyFromString.Num());
 
-	return true;
+	return bSuccess;
 }
 
 bool FMoqClientCreationAutomationTest::RunTest(const FString& Parameters)
@@ -299,9 +343,12 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 	const FMoqRelayTestConfig Config = FMoqRelayTestConfig::Load();
 	if (!Config.bIsEnabled)
 	{
-		AddWarning(TEXT("Skipping Cloudflare publish/subscribe test because MOQ_AUTOMATION_ENABLE_NETWORK=0 or MOQ_AUTOMATION_SKIP_NETWORK is set."));
+		AddWarning(TEXT("Skipping Cloudflare publish/subscribe test. Set MOQ_AUTOMATION_ENABLE_NETWORK=1 or pass -MoqEnableNetworkAutomation to opt in."));
 		return true;
 	}
+
+	const double ConnectTimeoutSeconds = 20.0;
+	const double PayloadTimeoutSeconds = 30.0;
 
 	TSharedPtr<FMoqNetworkTestState> State = MakeShared<FMoqNetworkTestState>();
 	State->RelayUrl = Config.RelayUrl;
@@ -309,6 +356,12 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 	State->TrackName = FString::Printf(TEXT("%s-%s"), *Config.TrackPrefix, *FGuid::NewGuid().ToString(EGuidFormats::Digits).Left(12));
 	State->ExpectedText = FString::Printf(TEXT("Automation-%s"), *FGuid::NewGuid().ToString(EGuidFormats::Digits));
 	State->ExpectedBinary = { 0xDE, 0xAD, 0xBE, 0xEF, 0x42, 0x13 };
+
+	const auto MarkFailure = [State](const FString& Reason)
+	{
+		State->bEncounteredFailure = true;
+		State->FailureReason = Reason;
+	};
 
 	UMoqClient* PublisherClientRaw = UMoqBlueprintLibrary::CreateMoqClient();
 	if (!TestNotNull(TEXT("Publisher client created"), PublisherClientRaw))
@@ -333,40 +386,57 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 	SubscriberClientRaw->OnConnectionStateChanged.AddDynamic(State->SubscriberSink.Get(), &UMoqAutomationEventSink::HandleConnectionStateChanged);
 
 	const FMoqResult PublisherConnectResult = PublisherClientRaw->Connect(State->RelayUrl);
-	TestTrue(FString::Printf(TEXT("Connect publisher to %s"), *State->RelayUrl), PublisherConnectResult.bSuccess);
+	if (!PublisherConnectResult.bSuccess)
+	{
+		const FString Error = FString::Printf(TEXT("Publisher failed to connect to %s: %s"), *State->RelayUrl, *PublisherConnectResult.ErrorMessage);
+		AddError(Error);
+		MarkFailure(Error);
+		return false;
+	}
 
 	const FMoqResult SubscriberConnectResult = SubscriberClientRaw->Connect(State->RelayUrl);
-	TestTrue(FString::Printf(TEXT("Connect subscriber to %s"), *State->RelayUrl), SubscriberConnectResult.bSuccess);
+	if (!SubscriberConnectResult.bSuccess)
+	{
+		const FString Error = FString::Printf(TEXT("Subscriber failed to connect to %s: %s"), *State->RelayUrl, *SubscriberConnectResult.ErrorMessage);
+		AddError(Error);
+		MarkFailure(Error);
+		return false;
+	}
 
 	AddCommand(new FMoqWaitConditionLatentCommand(
 		[State]()
 		{
 			return State->bPublisherConnected && State->bSubscriberConnected;
 		},
-		30.0,
+		ConnectTimeoutSeconds,
 		this,
 		State,
 		TEXT("Timed out waiting for both clients to connect to Cloudflare relay")));
 
-	AddCommand(new FMoqLambdaLatentCommand([this, State]()
+	AddCommand(new FMoqLambdaLatentCommand([this, State, MarkFailure]()
 	{
 		UMoqClient* PublisherClient = State->PublisherClient.Get();
 		UMoqClient* SubscriberClient = State->SubscriberClient.Get();
 		if (!PublisherClient || !SubscriberClient)
 		{
-			AddError(TEXT("Clients became invalid before namespace setup"));
+			const FString Error = TEXT("Clients became invalid before namespace setup");
+			AddError(Error);
+			MarkFailure(Error);
 			return;
 		}
 
 		const FMoqResult AnnounceResult = PublisherClient->AnnounceNamespace(State->Namespace);
 		if (!AnnounceResult.bSuccess)
 		{
-			AddError(FString::Printf(TEXT("AnnounceNamespace failed: %s"), *AnnounceResult.ErrorMessage));
+			const FString Error = FString::Printf(TEXT("AnnounceNamespace failed: %s"), *AnnounceResult.ErrorMessage);
+			AddError(Error);
+			MarkFailure(Error);
 		}
 
 		UMoqPublisher* Publisher = PublisherClient->CreatePublisher(State->Namespace, State->TrackName, EMoqDeliveryMode::Stream);
 		if (!TestNotNull(TEXT("Publisher created"), Publisher))
 		{
+			MarkFailure(TEXT("Publisher creation failed"));
 			return;
 		}
 		State->Publisher.Reset(Publisher);
@@ -374,6 +444,7 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 		UMoqSubscriber* Subscriber = SubscriberClient->Subscribe(State->Namespace, State->TrackName);
 		if (!TestNotNull(TEXT("Subscriber created"), Subscriber))
 		{
+			MarkFailure(TEXT("Subscriber creation failed"));
 			return;
 		}
 		State->Subscriber.Reset(Subscriber);
@@ -382,25 +453,33 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 		Subscriber->OnDataReceived.AddDynamic(State->SubscriberSink.Get(), &UMoqAutomationEventSink::HandleSubscriberData);
 	}));
 
-	AddCommand(new FMoqLambdaLatentCommand([this, State]()
+	AddCommand(new FMoqLambdaLatentCommand([this, State, MarkFailure]()
 	{
 		UMoqPublisher* Publisher = State->Publisher.Get();
 		if (!Publisher)
 		{
-			AddError(TEXT("Publisher is null before publishing payloads"));
+			const FString Error = TEXT("Publisher is null before publishing payloads");
+			AddError(Error);
+			MarkFailure(Error);
 			return;
 		}
 
 		const FMoqResult PublishTextResult = Publisher->PublishText(State->ExpectedText, EMoqDeliveryMode::Stream);
 		if (!PublishTextResult.bSuccess)
 		{
-			AddError(FString::Printf(TEXT("PublishText failed: %s"), *PublishTextResult.ErrorMessage));
+			const FString Error = FString::Printf(TEXT("PublishText failed: %s"), *PublishTextResult.ErrorMessage);
+			AddError(Error);
+			MarkFailure(Error);
+			return;
 		}
 
 		const FMoqResult PublishBinaryResult = Publisher->PublishData(State->ExpectedBinary, EMoqDeliveryMode::Stream);
 		if (!PublishBinaryResult.bSuccess)
 		{
-			AddError(FString::Printf(TEXT("PublishData failed: %s"), *PublishBinaryResult.ErrorMessage));
+			const FString Error = FString::Printf(TEXT("PublishData failed: %s"), *PublishBinaryResult.ErrorMessage);
+			AddError(Error);
+			MarkFailure(Error);
+			return;
 		}
 	}));
 
@@ -409,7 +488,7 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 		{
 			return State->bTextReceived;
 		},
-		45.0,
+		PayloadTimeoutSeconds,
 		this,
 		State,
 		TEXT("Timed out waiting for subscriber to receive text payload")));
@@ -419,7 +498,7 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 		{
 			return State->bBinaryReceived;
 		},
-		45.0,
+		PayloadTimeoutSeconds,
 		this,
 		State,
 		TEXT("Timed out waiting for subscriber to receive binary payload")));
@@ -434,6 +513,11 @@ bool FMoqCloudflarePublishSubscribeTest::RunTest(const FString& Parameters)
 		{
 			SubscriberClient->Disconnect();
 		}
+
+		State->Publisher.Reset();
+		State->Subscriber.Reset();
+		State->PublisherClient.Reset();
+		State->SubscriberClient.Reset();
 	}));
 
 	return true;
