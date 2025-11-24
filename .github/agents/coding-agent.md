@@ -42,8 +42,8 @@ Before writing any code, the agent MUST:
   - Access https://dev.epicgames.com/documentation/en-us/unreal-engine/API
   - **NEVER guess** - if unsure, research or ask
 - **For moq-ffi library**:
-  - Check `External/moq-ffi/` headers and documentation
-  - Review moq_ffi.h for C FFI function signatures
+  - Check `External/moq-ffi/` submodule headers and documentation
+  - Review moq_ffi.h for C FFI function signatures (typically in `include/` or root of submodule)
   - Verify version compatibility with MoQ draft specification
 - **For MoQ protocol**:
   - Reference IETF MoQ Transport draft specification
@@ -136,7 +136,7 @@ Follow these rules from `CONTRIBUTING.md`:
 1. **Verify build environment**:
    ```bash
    # Check Rust/moq-ffi builds
-   cd External/moq-ffi/moq_ffi
+   cd External/moq-ffi
    cargo build --release --features with_moq_draft07
    
    # Check Unreal project builds
@@ -277,7 +277,7 @@ Special considerations for Rust FFI integration:
 After any changes to moq-ffi or updating the submodule:
 ```bash
 # Navigate to moq-ffi directory
-cd External/moq-ffi/moq_ffi
+cd External/moq-ffi
 
 # Build with appropriate feature flag
 # Draft 07 (CloudFlare production relay)
@@ -340,7 +340,7 @@ Where applicable:
 When modifying FFI or updating submodule:
 ```bash
 # Build release version
-cd External/moq-ffi/moq_ffi
+cd External/moq-ffi
 cargo build --release --features with_moq_draft07
 
 # Check for errors
@@ -448,7 +448,7 @@ Add automatic reconnection support for MoqClient
 
 #### A. Debugging C++ Code
 **Using Visual Studio (Windows):**
-- Attach debugger to UE4Editor.exe
+- Attach debugger to UnrealEditor.exe (UE 5.7+)
 - Set breakpoints in plugin code
 - Step through code (F10/F11)
 - Inspect variables in watch window
@@ -536,7 +536,7 @@ tcpdump -i any -w capture.pcap port 443
 #### A. Primary Sources of Truth
 - **@lifelike-and-believable/UnrealMoQ** - This repository
 - **@lifelike-and-believable/moq-ffi** - Rust FFI library
-- **@lifelike-and-believable/UnrealEngine** - UE 5.7+ source code
+- **Epic Games Unreal Engine** - UE 5.7+ source (access via Epic Games GitHub or Unreal Engine documentation)
 
 #### B. Documentation
 - **Unreal Engine API**: https://dev.epicgames.com/documentation/en-us/unreal-engine/API

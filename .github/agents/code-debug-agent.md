@@ -205,11 +205,11 @@ Use structured comments:
 ### 6. Platform-Specific Debugging
 
 #### A. Windows Debugging
-- Use Visual Studio debugger attached to UE4Editor.exe
+- Use Visual Studio debugger attached to UnrealEditor.exe (UE 5.7+)
 - Check for DLL loading issues with Process Monitor
 - Verify moq_ffi.dll in correct location
 - Check Windows Event Log for crashes
-- Use Dr. Watson or WER for crash analysis
+- Use Windows Error Reporting (WER) for crash analysis
 
 #### B. Linux Debugging
 - Use GDB or LLDB for crash investigation
@@ -229,8 +229,8 @@ Use structured comments:
 
 #### A. Library Loading Issues
 ```bash
-# Windows - check DLL dependencies
-dumpbin /dependents moq_ffi.dll
+# Windows - check DLL dependencies (requires Visual Studio Developer Command Prompt)
+dumpbin /imports moq_ffi.dll
 
 # Linux - check SO dependencies
 ldd libmoq_ffi.so
@@ -242,7 +242,7 @@ otool -L libmoq_ffi.dylib
 #### B. Symbol Resolution
 ```bash
 # Check for expected symbols
-# Windows
+# Windows (requires Visual Studio Developer Command Prompt)
 dumpbin /exports moq_ffi.dll
 
 # Linux

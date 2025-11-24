@@ -366,12 +366,14 @@ Accessing UObjects from non-game threads causes crashes and undefined behavior. 
 // Instead of:
 OnDataReceived.Broadcast(Data);
 
-// Use:
-AsyncTask(ENamedThreads::GameThread, [this, Data]()
+// Use (with weak reference for UObject safety):
+TWeakObjectPtr<UMyClass> WeakThis(this);
+TArray<uint8> DataCopy = Data; // Copy data for lambda capture
+AsyncTask(ENamedThreads::GameThread, [WeakThis, DataCopy]()
 {
-    if (IsValid(this))
+    if (UMyClass* StrongThis = WeakThis.Get())
     {
-        OnDataReceived.Broadcast(Data);
+        StrongThis->OnDataReceived.Broadcast(DataCopy);
     }
 });
 ```
