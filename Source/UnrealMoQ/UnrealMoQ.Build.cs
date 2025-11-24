@@ -52,7 +52,8 @@ public class UnrealMoQ : ModuleRules
 		);
 
 		// Add moq-ffi third party library
-		string ThirdPartyPath = Path.Combine(ModuleDirectory, "../../ThirdParty");
+		string PluginPath = Path.GetFullPath(Path.Combine(ModuleDirectory, "../../"));
+		string ThirdPartyPath = Path.Combine(PluginPath, "ThirdParty");
 		string MoqFFIPath = Path.Combine(ThirdPartyPath, "moq-ffi", "moq_ffi");
 		string MoqFFIIncludePath = Path.Combine(MoqFFIPath, "include");
 		

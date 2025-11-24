@@ -193,7 +193,27 @@ void UMoqClient::OnConnectionStateChangedCallback(void* UserData, MoqConnectionS
 		return;
 	}
 
-	EMoqConnectionState NewState = static_cast<EMoqConnectionState>(State);
+	// Safely convert native state to Unreal enum
+	EMoqConnectionState NewState;
+	switch (State)
+	{
+	case MOQ_STATE_DISCONNECTED:
+		NewState = EMoqConnectionState::Disconnected;
+		break;
+	case MOQ_STATE_CONNECTING:
+		NewState = EMoqConnectionState::Connecting;
+		break;
+	case MOQ_STATE_CONNECTED:
+		NewState = EMoqConnectionState::Connected;
+		break;
+	case MOQ_STATE_FAILED:
+		NewState = EMoqConnectionState::Failed;
+		break;
+	default:
+		UE_LOG(LogTemp, Warning, TEXT("Unknown MoQ connection state: %d"), (int)State);
+		return;
+	}
+	
 	Client->CurrentState = NewState;
 
 	// Broadcast on game thread

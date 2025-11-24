@@ -30,8 +30,24 @@ FString UMoqBlueprintLibrary::BytesToString(const TArray<uint8>& Data)
 		return FString();
 	}
 
+	// Convert with UTF-8 validation
 	FUTF8ToTCHAR Converter(reinterpret_cast<const ANSICHAR*>(Data.GetData()), Data.Num());
-	return FString(Converter.Length(), Converter.Get());
+	if (Converter.Length() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BytesToString: Failed to convert UTF-8 data"));
+		return FString();
+	}
+
+	FString Result(Converter.Length(), Converter.Get());
+	
+	// Check for replacement characters which indicate invalid UTF-8
+	if (Result.Contains(TEXT("\uFFFD")))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BytesToString: Invalid UTF-8 sequences detected"));
+		return FString();
+	}
+
+	return Result;
 }
 
 TArray<uint8> UMoqBlueprintLibrary::StringToBytes(const FString& Text)

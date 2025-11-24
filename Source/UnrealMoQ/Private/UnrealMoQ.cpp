@@ -22,7 +22,13 @@ void FUnrealMoQModule::StartupModule()
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	
 	// Get the base directory of this plugin
-	FString BaseDir = IPluginManager::Get().FindPlugin("UnrealMoQ")->GetBaseDir();
+	TSharedPtr<IPlugin> Plugin = IPluginManager::Get().FindPlugin("UnrealMoQ");
+	if (!Plugin.IsValid())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UnrealMoQ: Failed to find plugin"));
+		return;
+	}
+	FString BaseDir = Plugin->GetBaseDir();
 
 	// Add on the relative location of the third party dll and load it
 	FString MoqFFILibraryPath;

@@ -44,16 +44,21 @@ void UMoqSubscriber::OnDataReceivedCallback(void* UserData, const uint8_t* Data,
 	TArray<uint8> DataArray;
 	DataArray.Append(Data, DataLen);
 
-	// Try to decode as UTF-8 text
+	// Try to decode as UTF-8 text with validation
 	FString TextData;
 	bool bIsValidText = false;
 
-	// Create a UTF-8 string and try to convert
+	// Validate UTF-8 by checking for valid conversion
+	// FUTF8ToTCHAR performs validation during conversion
 	FUTF8ToTCHAR Converter(reinterpret_cast<const ANSICHAR*>(Data), DataLen);
 	if (Converter.Length() > 0)
 	{
 		TextData = FString(Converter.Length(), Converter.Get());
-		bIsValidText = true;
+		// Basic validation: check for replacement characters which indicate invalid UTF-8
+		if (!TextData.Contains(TEXT("\uFFFD")))
+		{
+			bIsValidText = true;
+		}
 	}
 
 	// Broadcast on game thread

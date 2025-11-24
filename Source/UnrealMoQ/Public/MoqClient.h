@@ -68,6 +68,10 @@ UCLASS(BlueprintType)
 class UNREALMOQ_API UMoqClient : public UObject
 {
 	GENERATED_BODY()
+	
+	// Friend classes that need internal access
+	friend class UMoqPublisher;
+	friend class UMoqSubscriber;
 
 public:
 	UMoqClient();
@@ -133,7 +137,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "MoQ|Events")
 	FMoqTrackAnnounced OnTrackAnnounced;
 
-	/** Get the underlying C API client handle (for internal use) */
+
+protected:
+	/** Get the underlying C API client handle (for internal use by friend classes) */
 	MoqClient* GetClientHandle() const { return ClientHandle; }
 
 private:
