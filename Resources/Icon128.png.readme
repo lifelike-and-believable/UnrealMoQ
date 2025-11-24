@@ -1,0 +1,18 @@
+# Plugin Icon
+
+This directory should contain the plugin icon:
+- Icon128.png (128x128 pixels) - Main plugin icon shown in the Plugins window
+
+The icon should be a PNG file with transparency support, representing the UnrealMoQ plugin.
+
+## Suggested Icon Design
+
+- Theme: Network/streaming/media icon
+- Colors: Blue and white (matching Unreal Engine theme)
+- Style: Modern, clean, professional
+- Elements: Could include "MoQ" text, network nodes, or streaming waves
+
+To add the icon:
+1. Create or design a 128x128 PNG image
+2. Save it as `Resources/Icon128.png`
+3. The plugin will automatically use it in the Unreal Engine Plugins window
