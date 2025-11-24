@@ -24,6 +24,16 @@
 				"Linux",
 				"Mac"
 			]
+		},
+		{
+			"Name": "UnrealMoQTests",
+			"Type": "UncookedOnly",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Linux",
+				"Mac"
+			]
 		}
 	]
 }
