@@ -35,3 +35,6 @@ DerivedDataCache/
 
 # Generated moq-ffi artifacts
 UnrealMoQ/ThirdParty/moq-ffi/
+
+# CodeQL analysis artifacts
+_codeql_detected_source_root
