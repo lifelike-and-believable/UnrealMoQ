@@ -38,7 +38,6 @@ public class UnrealMoQ : ModuleRules
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			string LibPath = Path.Combine(MoqFFIPath, "target", "release");
-			string BinPath = LibPath;
 			
 			// Add the import library
 			PublicAdditionalLibraries.Add(Path.Combine(LibPath, "moq_ffi.dll.lib"));
@@ -47,10 +46,10 @@ public class UnrealMoQ : ModuleRules
 			PublicDelayLoadDLLs.Add("moq_ffi.dll");
 			
 			// Stage the DLL to the binaries directory
-			RuntimeDependencies.Add(Path.Combine("$(BinaryOutputDir)", "moq_ffi.dll"), Path.Combine(BinPath, "moq_ffi.dll"));
+			RuntimeDependencies.Add(Path.Combine("$(BinaryOutputDir)", "moq_ffi.dll"), Path.Combine(LibPath, "moq_ffi.dll"));
 			
 			// Also stage the PDB for debugging
-			string PdbPath = Path.Combine(BinPath, "moq_ffi.pdb");
+			string PdbPath = Path.Combine(LibPath, "moq_ffi.pdb");
 			if (File.Exists(PdbPath))
 			{
 				RuntimeDependencies.Add(Path.Combine("$(BinaryOutputDir)", "moq_ffi.pdb"), PdbPath);

@@ -23,7 +23,8 @@ void UMoqClient::BeginDestroy()
 {
 	if (ClientHandle)
 	{
-		Disconnect();
+		// Disconnect directly without calling virtual function
+		moq_disconnect(ClientHandle);
 		moq_client_destroy(ClientHandle);
 		ClientHandle = nullptr;
 	}
