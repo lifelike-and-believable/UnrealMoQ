@@ -1,0 +1,3 @@
+[submodule "ThirdParty/moq-ffi"]
+	path = ThirdParty/moq-ffi
+	url = https://github.com/lifelike-and-believable/moq-ffi.git

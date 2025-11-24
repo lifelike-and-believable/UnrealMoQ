@@ -1,0 +1,29 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"FriendlyName": "Unreal MoQ",
+	"Description": "Media over QUIC (MoQ) C++ / Blueprint Library for Unreal Engine 5.7+",
+	"Category": "Networking",
+	"CreatedBy": "Lifelike and Believable",
+	"CreatedByURL": "https://github.com/lifelike-and-believable",
+	"DocsURL": "https://github.com/lifelike-and-believable/UnrealMoQ",
+	"MarketplaceURL": "",
+	"SupportURL": "https://github.com/lifelike-and-believable/UnrealMoQ/issues",
+	"EngineVersion": "5.7.0",
+	"CanContainContent": false,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "UnrealMoQ",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"PlatformAllowList": [
+				"Win64",
+				"Linux",
+				"Mac"
+			]
+		}
+	]
+}
