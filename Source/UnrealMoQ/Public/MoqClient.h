@@ -30,7 +30,7 @@ enum class EMoqDeliveryMode : uint8
 
 /** Result structure for Blueprint */
 USTRUCT(BlueprintType)
-struct FMoqResult
+struct UNREALMOQ_API FMoqResult
 {
 	GENERATED_BODY()
 

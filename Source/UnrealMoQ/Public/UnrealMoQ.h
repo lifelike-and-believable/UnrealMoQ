@@ -8,6 +8,7 @@
 class FUnrealMoQModule : public IModuleInterface
 {
 public:
+	FUnrealMoQModule() : MoqFFIDllHandle(nullptr) {}
 
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
@@ -16,7 +17,6 @@ public:
 private:
 	/** 
 	 * Handle to the loaded moq_ffi DLL/SO/DYLIB
-	 * Initialized to nullptr on construction
 	 * Loaded during StartupModule and freed during ShutdownModule
 	 */
 	void* MoqFFIDllHandle;
