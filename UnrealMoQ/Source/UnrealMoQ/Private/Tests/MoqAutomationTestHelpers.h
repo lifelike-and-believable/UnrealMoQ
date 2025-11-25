@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "MoqTypes.h"
+#include "MoqBlueprintLibrary.h"
+
+class UMoqClient;
+class UMoqSubscriber;
 #include "MoqAutomationTestHelpers.generated.h"
 
 struct FMoqNetworkTestState;
@@ -27,6 +31,18 @@ public:
 
 	UFUNCTION()
 	void HandleSubscriberData(const TArray<uint8>& Data);
+
+	UFUNCTION()
+	void HandleConnectAsyncSuccess(UMoqClient* Client);
+
+	UFUNCTION()
+	void HandleConnectAsyncFailure(UMoqClient* Client, const FString& ErrorMessage);
+
+	UFUNCTION()
+	void HandleSubscribeAsyncSuccess(UMoqSubscriber* Subscriber);
+
+	UFUNCTION()
+	void HandleSubscribeAsyncFailure(UMoqClient* Client, const FString& ErrorMessage);
 
 private:
 	TWeakPtr<FMoqNetworkTestState> WeakState;

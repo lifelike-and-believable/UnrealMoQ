@@ -2,9 +2,9 @@
 
 #include "MoqSubscriber.h"
 #include "MoqClient.h"
-#include "Misc/AutomationTest.h"
+#include "MoqAutomationTestFlags.h"
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberConstructionTest, "UnrealMoQ.Subscriber.Construction", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberConstructionTest, "UnrealMoQ.Subscriber.Construction", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberConstructionTest::RunTest(const FString& Parameters)
 {
@@ -16,7 +16,7 @@ bool FMoqSubscriberConstructionTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberEventBindingTest, "UnrealMoQ.Subscriber.EventBinding", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberEventBindingTest, "UnrealMoQ.Subscriber.EventBinding", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberEventBindingTest::RunTest(const FString& Parameters)
 {
@@ -45,7 +45,7 @@ bool FMoqSubscriberEventBindingTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberInitializeFromHandleNullTest, "UnrealMoQ.Subscriber.InitializeFromHandle.Null", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberInitializeFromHandleNullTest, "UnrealMoQ.Subscriber.InitializeFromHandle.Null", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberInitializeFromHandleNullTest::RunTest(const FString& Parameters)
 {
@@ -60,7 +60,7 @@ bool FMoqSubscriberInitializeFromHandleNullTest::RunTest(const FString& Paramete
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackNullUserDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.NullUserData", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackNullUserDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.NullUserData", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackNullUserDataTest::RunTest(const FString& Parameters)
 {
@@ -75,7 +75,7 @@ bool FMoqSubscriberOnDataReceivedCallbackNullUserDataTest::RunTest(const FString
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackNullDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.NullData", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackNullDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.NullData", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackNullDataTest::RunTest(const FString& Parameters)
 {
@@ -90,7 +90,7 @@ bool FMoqSubscriberOnDataReceivedCallbackNullDataTest::RunTest(const FString& Pa
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackZeroLengthTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.ZeroLength", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackZeroLengthTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.ZeroLength", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackZeroLengthTest::RunTest(const FString& Parameters)
 {
@@ -106,7 +106,7 @@ bool FMoqSubscriberOnDataReceivedCallbackZeroLengthTest::RunTest(const FString& 
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackValidDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.ValidData", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackValidDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.ValidData", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackValidDataTest::RunTest(const FString& Parameters)
 {
@@ -128,7 +128,7 @@ bool FMoqSubscriberOnDataReceivedCallbackValidDataTest::RunTest(const FString& P
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackValidUTF8Test, "UnrealMoQ.Subscriber.OnDataReceivedCallback.ValidUTF8", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackValidUTF8Test, "UnrealMoQ.Subscriber.OnDataReceivedCallback.ValidUTF8", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackValidUTF8Test::RunTest(const FString& Parameters)
 {
@@ -146,7 +146,7 @@ bool FMoqSubscriberOnDataReceivedCallbackValidUTF8Test::RunTest(const FString& P
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackInvalidUTF8Test, "UnrealMoQ.Subscriber.OnDataReceivedCallback.InvalidUTF8", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackInvalidUTF8Test, "UnrealMoQ.Subscriber.OnDataReceivedCallback.InvalidUTF8", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackInvalidUTF8Test::RunTest(const FString& Parameters)
 {
@@ -164,7 +164,7 @@ bool FMoqSubscriberOnDataReceivedCallbackInvalidUTF8Test::RunTest(const FString&
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackUnicodeTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.Unicode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackUnicodeTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.Unicode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackUnicodeTest::RunTest(const FString& Parameters)
 {
@@ -182,7 +182,7 @@ bool FMoqSubscriberOnDataReceivedCallbackUnicodeTest::RunTest(const FString& Par
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackLargeDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.LargeData", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberOnDataReceivedCallbackLargeDataTest, "UnrealMoQ.Subscriber.OnDataReceivedCallback.LargeData", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberOnDataReceivedCallbackLargeDataTest::RunTest(const FString& Parameters)
 {
@@ -204,7 +204,7 @@ bool FMoqSubscriberOnDataReceivedCallbackLargeDataTest::RunTest(const FString& P
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberMultipleCallbacksTest, "UnrealMoQ.Subscriber.MultipleCallbacks", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqSubscriberMultipleCallbacksTest, "UnrealMoQ.Subscriber.MultipleCallbacks", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqSubscriberMultipleCallbacksTest::RunTest(const FString& Parameters)
 {

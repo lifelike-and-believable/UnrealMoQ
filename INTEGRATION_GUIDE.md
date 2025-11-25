@@ -239,6 +239,27 @@ Once Connected:
     └─> Update remote actor position
 ```
 
+### Blueprint Automation & Testing Nodes
+
+To simplify integration tests and UI-driven workflows, UnrealMoQ exposes async Blueprint nodes that exercise the same code paths as user widgets:
+
+- **Connect MoQ Client (Async)** – wraps `UMoqConnectClientAsyncAction`. Provide an existing `UMoqClient`, relay URL, and optional timeout. The node raises `On Connected` when `EMoqConnectionState::Connected` fires and `On Failed` for immediate errors or timeouts.
+- **Subscribe With Retry (Async)** – wraps `UMoqSubscribeWithRetryAsyncAction`. It repeatedly calls `Subscribe()` until a subscriber is returned or the retry budget is exhausted. The success delegate returns the ready `UMoqSubscriber` so you can immediately bind to `OnDataReceived`/`OnTextReceived`.
+- **Pump MoQ Event Loop** – `UMoqAutomationBlueprintLibrary::PumpMoqEventLoop` is a lightweight helper that Blueprint functional tests or UI harnesses can call to tick the core ticker/task graph while waiting for async nodes to resolve (useful inside `FunctionalTest` Blueprints or automation macros).
+
+These helpers are used by the new automation test `UnrealMoQ.Network.CloudflareBlueprintPublishSubscribe`, which mirrors the existing C++ Cloudflare test but drives the workflow entirely through Blueprint-accessible nodes. Enable it with the same environment variables as the other network tests:
+
+```powershell
+$env:MOQ_AUTOMATION_ENABLE_NETWORK=1
+UEEditor-Cmd.exe <Project> -run=Automation RunTests "UnrealMoQ.Network.CloudflareBlueprintPublishSubscribe"
+```
+
+When authoring Blueprint-based integration tests:
+
+1. Use **Connect MoQ Client (Async)** during `BeginPlay` (or UI init) and wait for the `On Connected` pin before announcing namespaces or creating publishers.
+2. Prime tracks (publish a sentinel payload) before invoking **Subscribe With Retry**; Blueprint automation can call `Pump MoQ Event Loop` in a loop while waiting for the subscriber-ready boolean to flip.
+3. Bind `OnDataReceived`/`OnTextReceived` immediately in the async success callback, ensuring test harnesses capture the payloads without relying on latent nodes.
+
 ## C++ Examples
 
 ### Example 1: Creating a MoQ Client Manager

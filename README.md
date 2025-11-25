@@ -335,6 +335,7 @@ The plugin ships with Unreal Automation tests (editor context) that exercise bot
 - `UnrealMoQ.BlueprintLibrary.StringConversions` – validates UTF-8 encode/decode helpers
 - `UnrealMoQ.Client.Creation` – covers the Blueprint-friendly client factory
 - `UnrealMoQ.Network.CloudflarePublishSubscribe` – connects to <https://relay.cloudflare.mediaoverquic.com>, announces a namespace, publishes text + binary payloads, and verifies a subscriber receives both
+- `UnrealMoQ.Network.CloudflareBlueprintPublishSubscribe` – runs the same end-to-end Cloudflare flow entirely through Blueprint async nodes (`UMoqConnectClientAsyncAction`, `UMoqSubscribeWithRetryAsyncAction`) while driving the ticker via `UMoqAutomationBlueprintLibrary::PumpMoqEventLoop`
 
 #### Running the test suite
 

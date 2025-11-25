@@ -2,8 +2,9 @@
 
 #include "MoqClient.h"
 #include "Misc/AutomationTest.h"
+#include "MoqAutomationTestFlags.h"
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientConstructionTest, "UnrealMoQ.Client.Construction", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientConstructionTest, "UnrealMoQ.Client.Construction", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientConstructionTest::RunTest(const FString& Parameters)
 {
@@ -16,7 +17,7 @@ bool FMoqClientConstructionTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientIsConnectedInitialStateTest, "UnrealMoQ.Client.IsConnected.InitialState", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientIsConnectedInitialStateTest, "UnrealMoQ.Client.IsConnected.InitialState", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientIsConnectedInitialStateTest::RunTest(const FString& Parameters)
 {
@@ -28,7 +29,7 @@ bool FMoqClientIsConnectedInitialStateTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientConnectWithValidUrlTest, "UnrealMoQ.Client.Connect.ValidUrl", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientConnectWithValidUrlTest, "UnrealMoQ.Client.Connect.ValidUrl", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientConnectWithValidUrlTest::RunTest(const FString& Parameters)
 {
@@ -44,7 +45,7 @@ bool FMoqClientConnectWithValidUrlTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientConnectWithEmptyUrlTest, "UnrealMoQ.Client.Connect.EmptyUrl", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientConnectWithEmptyUrlTest, "UnrealMoQ.Client.Connect.EmptyUrl", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientConnectWithEmptyUrlTest::RunTest(const FString& Parameters)
 {
@@ -59,7 +60,7 @@ bool FMoqClientConnectWithEmptyUrlTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientDisconnectWithoutConnectTest, "UnrealMoQ.Client.Disconnect.WithoutConnect", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientDisconnectWithoutConnectTest, "UnrealMoQ.Client.Disconnect.WithoutConnect", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientDisconnectWithoutConnectTest::RunTest(const FString& Parameters)
 {
@@ -74,7 +75,7 @@ bool FMoqClientDisconnectWithoutConnectTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientAnnounceNamespaceWithoutConnectTest, "UnrealMoQ.Client.AnnounceNamespace.WithoutConnect", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientAnnounceNamespaceWithoutConnectTest, "UnrealMoQ.Client.AnnounceNamespace.WithoutConnect", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientAnnounceNamespaceWithoutConnectTest::RunTest(const FString& Parameters)
 {
@@ -90,7 +91,7 @@ bool FMoqClientAnnounceNamespaceWithoutConnectTest::RunTest(const FString& Param
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientAnnounceNamespaceEmptyTest, "UnrealMoQ.Client.AnnounceNamespace.Empty", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientAnnounceNamespaceEmptyTest, "UnrealMoQ.Client.AnnounceNamespace.Empty", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientAnnounceNamespaceEmptyTest::RunTest(const FString& Parameters)
 {
@@ -105,13 +106,15 @@ bool FMoqClientAnnounceNamespaceEmptyTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherWithoutConnectTest, "UnrealMoQ.Client.CreatePublisher.WithoutConnect", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherWithoutConnectTest, "UnrealMoQ.Client.CreatePublisher.WithoutConnect", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientCreatePublisherWithoutConnectTest::RunTest(const FString& Parameters)
 {
 	// Test creating publisher without connecting first
 	UMoqClient* Client = NewObject<UMoqClient>();
 	
+	AddExpectedError(TEXT("Cannot create publisher: Client not initialized"), EAutomationExpectedMessageFlags::Contains, 1);
+
 	UMoqPublisher* Publisher = Client->CreatePublisher(TEXT("test-namespace"), TEXT("test-track"), EMoqDeliveryMode::Stream);
 	
 	// Should fail and return nullptr
@@ -120,13 +123,15 @@ bool FMoqClientCreatePublisherWithoutConnectTest::RunTest(const FString& Paramet
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherEmptyNamespaceTest, "UnrealMoQ.Client.CreatePublisher.EmptyNamespace", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherEmptyNamespaceTest, "UnrealMoQ.Client.CreatePublisher.EmptyNamespace", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientCreatePublisherEmptyNamespaceTest::RunTest(const FString& Parameters)
 {
 	// Test creating publisher with empty namespace
 	UMoqClient* Client = NewObject<UMoqClient>();
 	
+	AddExpectedError(TEXT("Cannot create publisher: Client not initialized"), EAutomationExpectedMessageFlags::Contains, 1);
+
 	UMoqPublisher* Publisher = Client->CreatePublisher(TEXT(""), TEXT("test-track"), EMoqDeliveryMode::Stream);
 	
 	// Should handle gracefully (return nullptr or error)
@@ -135,13 +140,15 @@ bool FMoqClientCreatePublisherEmptyNamespaceTest::RunTest(const FString& Paramet
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherEmptyTrackTest, "UnrealMoQ.Client.CreatePublisher.EmptyTrack", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherEmptyTrackTest, "UnrealMoQ.Client.CreatePublisher.EmptyTrack", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientCreatePublisherEmptyTrackTest::RunTest(const FString& Parameters)
 {
 	// Test creating publisher with empty track name
 	UMoqClient* Client = NewObject<UMoqClient>();
 	
+	AddExpectedError(TEXT("Cannot create publisher: Client not initialized"), EAutomationExpectedMessageFlags::Contains, 1);
+
 	UMoqPublisher* Publisher = Client->CreatePublisher(TEXT("test-namespace"), TEXT(""), EMoqDeliveryMode::Stream);
 	
 	// Should handle gracefully (return nullptr or error)
@@ -150,13 +157,15 @@ bool FMoqClientCreatePublisherEmptyTrackTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherDatagramModeTest, "UnrealMoQ.Client.CreatePublisher.DatagramMode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientCreatePublisherDatagramModeTest, "UnrealMoQ.Client.CreatePublisher.DatagramMode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientCreatePublisherDatagramModeTest::RunTest(const FString& Parameters)
 {
 	// Test creating publisher with datagram delivery mode
 	UMoqClient* Client = NewObject<UMoqClient>();
 	
+	AddExpectedError(TEXT("Cannot create publisher: Client not initialized"), EAutomationExpectedMessageFlags::Contains, 1);
+
 	UMoqPublisher* Publisher = Client->CreatePublisher(TEXT("test-namespace"), TEXT("test-track"), EMoqDeliveryMode::Datagram);
 	
 	// Should execute without crashing (may return nullptr due to no connection)
@@ -165,13 +174,15 @@ bool FMoqClientCreatePublisherDatagramModeTest::RunTest(const FString& Parameter
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientSubscribeWithoutConnectTest, "UnrealMoQ.Client.Subscribe.WithoutConnect", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientSubscribeWithoutConnectTest, "UnrealMoQ.Client.Subscribe.WithoutConnect", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientSubscribeWithoutConnectTest::RunTest(const FString& Parameters)
 {
 	// Test subscribing without connecting first
 	UMoqClient* Client = NewObject<UMoqClient>();
 	
+	AddExpectedError(TEXT("Cannot subscribe: Client not initialized"), EAutomationExpectedMessageFlags::Contains, 1);
+
 	UMoqSubscriber* Subscriber = Client->Subscribe(TEXT("test-namespace"), TEXT("test-track"));
 	
 	// Should fail and return nullptr
@@ -180,13 +191,15 @@ bool FMoqClientSubscribeWithoutConnectTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientSubscribeEmptyNamespaceTest, "UnrealMoQ.Client.Subscribe.EmptyNamespace", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientSubscribeEmptyNamespaceTest, "UnrealMoQ.Client.Subscribe.EmptyNamespace", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientSubscribeEmptyNamespaceTest::RunTest(const FString& Parameters)
 {
 	// Test subscribing with empty namespace
 	UMoqClient* Client = NewObject<UMoqClient>();
 	
+	AddExpectedError(TEXT("Cannot subscribe: Client not initialized"), EAutomationExpectedMessageFlags::Contains, 1);
+
 	UMoqSubscriber* Subscriber = Client->Subscribe(TEXT(""), TEXT("test-track"));
 	
 	// Should handle gracefully (return nullptr or error)
@@ -195,13 +208,15 @@ bool FMoqClientSubscribeEmptyNamespaceTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientSubscribeEmptyTrackTest, "UnrealMoQ.Client.Subscribe.EmptyTrack", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientSubscribeEmptyTrackTest, "UnrealMoQ.Client.Subscribe.EmptyTrack", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientSubscribeEmptyTrackTest::RunTest(const FString& Parameters)
 {
 	// Test subscribing with empty track name
 	UMoqClient* Client = NewObject<UMoqClient>();
 	
+	AddExpectedError(TEXT("Cannot subscribe: Client not initialized"), EAutomationExpectedMessageFlags::Contains, 1);
+
 	UMoqSubscriber* Subscriber = Client->Subscribe(TEXT("test-namespace"), TEXT(""));
 	
 	// Should handle gracefully (return nullptr or error)
@@ -210,7 +225,7 @@ bool FMoqClientSubscribeEmptyTrackTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientMultipleConnectTest, "UnrealMoQ.Client.MultipleConnect", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientMultipleConnectTest, "UnrealMoQ.Client.MultipleConnect", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientMultipleConnectTest::RunTest(const FString& Parameters)
 {
@@ -226,7 +241,7 @@ bool FMoqClientMultipleConnectTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientFMoqResultSuccessTest, "UnrealMoQ.Client.FMoqResult.Success", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientFMoqResultSuccessTest, "UnrealMoQ.Client.FMoqResult.Success", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientFMoqResultSuccessTest::RunTest(const FString& Parameters)
 {
@@ -239,7 +254,7 @@ bool FMoqClientFMoqResultSuccessTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientFMoqResultFailureTest, "UnrealMoQ.Client.FMoqResult.Failure", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientFMoqResultFailureTest, "UnrealMoQ.Client.FMoqResult.Failure", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientFMoqResultFailureTest::RunTest(const FString& Parameters)
 {
@@ -252,7 +267,7 @@ bool FMoqClientFMoqResultFailureTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientFMoqResultDefaultTest, "UnrealMoQ.Client.FMoqResult.Default", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqClientFMoqResultDefaultTest, "UnrealMoQ.Client.FMoqResult.Default", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqClientFMoqResultDefaultTest::RunTest(const FString& Parameters)
 {

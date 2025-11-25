@@ -178,7 +178,9 @@ UMoqSubscriber* UMoqClient::Subscribe(const FString& Namespace, const FString& T
 
 	if (!SubscriberHandle)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to subscribe to %s/%s"), *Namespace, *TrackName);
+		const char* LastError = moq_last_error();
+		const FString LastErrorMessage = LastError ? UTF8_TO_TCHAR(LastError) : TEXT("Unknown error");
+		UE_LOG(LogTemp, Error, TEXT("Failed to subscribe to %s/%s (LastError: %s)"), *Namespace, *TrackName, *LastErrorMessage);
 		return nullptr;
 	}
 

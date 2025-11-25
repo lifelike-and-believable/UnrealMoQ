@@ -163,10 +163,12 @@ When adding new functionality to UnrealMoQ:
 
 Example:
 ```cpp
+#include "MoqAutomationTestFlags.h"
+
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(
     FMoqClientConnectWithValidUrlTest,
     "UnrealMoQ.Client.Connect.ValidUrl",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter
+   MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter
 )
 
 bool FMoqClientConnectWithValidUrlTest::RunTest(const FString& Parameters)
@@ -178,6 +180,8 @@ bool FMoqClientConnectWithValidUrlTest::RunTest(const FString& Parameters)
     return true;
 }
 ```
+
+> **Tip:** Always include `MoqAutomationTestFlags.h` in new test files so you can reuse the shared flag combinations defined there.
 
 ## Troubleshooting
 

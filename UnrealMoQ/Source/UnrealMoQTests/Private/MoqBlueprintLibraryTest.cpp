@@ -2,8 +2,9 @@
 
 #include "MoqBlueprintLibrary.h"
 #include "Misc/AutomationTest.h"
+#include "MoqAutomationTestFlags.h"
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryGetMoqVersionTest, "UnrealMoQ.BlueprintLibrary.GetMoqVersion", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryGetMoqVersionTest, "UnrealMoQ.BlueprintLibrary.GetMoqVersion", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryGetMoqVersionTest::RunTest(const FString& Parameters)
 {
@@ -15,7 +16,7 @@ bool FMoqBlueprintLibraryGetMoqVersionTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryGetLastErrorTest, "UnrealMoQ.BlueprintLibrary.GetLastError", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryGetLastErrorTest, "UnrealMoQ.BlueprintLibrary.GetLastError", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryGetLastErrorTest::RunTest(const FString& Parameters)
 {
@@ -28,7 +29,7 @@ bool FMoqBlueprintLibraryGetLastErrorTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryStringToBytesEmptyTest, "UnrealMoQ.BlueprintLibrary.StringToBytes.Empty", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryStringToBytesEmptyTest, "UnrealMoQ.BlueprintLibrary.StringToBytes.Empty", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryStringToBytesEmptyTest::RunTest(const FString& Parameters)
 {
@@ -40,7 +41,7 @@ bool FMoqBlueprintLibraryStringToBytesEmptyTest::RunTest(const FString& Paramete
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryStringToBytesValidTest, "UnrealMoQ.BlueprintLibrary.StringToBytes.Valid", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryStringToBytesValidTest, "UnrealMoQ.BlueprintLibrary.StringToBytes.Valid", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryStringToBytesValidTest::RunTest(const FString& Parameters)
 {
@@ -54,7 +55,7 @@ bool FMoqBlueprintLibraryStringToBytesValidTest::RunTest(const FString& Paramete
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryStringToBytesUnicodeTest, "UnrealMoQ.BlueprintLibrary.StringToBytes.Unicode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryStringToBytesUnicodeTest, "UnrealMoQ.BlueprintLibrary.StringToBytes.Unicode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryStringToBytesUnicodeTest::RunTest(const FString& Parameters)
 {
@@ -69,7 +70,7 @@ bool FMoqBlueprintLibraryStringToBytesUnicodeTest::RunTest(const FString& Parame
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringEmptyTest, "UnrealMoQ.BlueprintLibrary.BytesToString.Empty", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringEmptyTest, "UnrealMoQ.BlueprintLibrary.BytesToString.Empty", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryBytesToStringEmptyTest::RunTest(const FString& Parameters)
 {
@@ -82,7 +83,7 @@ bool FMoqBlueprintLibraryBytesToStringEmptyTest::RunTest(const FString& Paramete
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringValidTest, "UnrealMoQ.BlueprintLibrary.BytesToString.Valid", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringValidTest, "UnrealMoQ.BlueprintLibrary.BytesToString.Valid", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryBytesToStringValidTest::RunTest(const FString& Parameters)
 {
@@ -95,7 +96,7 @@ bool FMoqBlueprintLibraryBytesToStringValidTest::RunTest(const FString& Paramete
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringUnicodeTest, "UnrealMoQ.BlueprintLibrary.BytesToString.Unicode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringUnicodeTest, "UnrealMoQ.BlueprintLibrary.BytesToString.Unicode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryBytesToStringUnicodeTest::RunTest(const FString& Parameters)
 {
@@ -109,7 +110,7 @@ bool FMoqBlueprintLibraryBytesToStringUnicodeTest::RunTest(const FString& Parame
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringInvalidUTF8Test, "UnrealMoQ.BlueprintLibrary.BytesToString.InvalidUTF8", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryBytesToStringInvalidUTF8Test, "UnrealMoQ.BlueprintLibrary.BytesToString.InvalidUTF8", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryBytesToStringInvalidUTF8Test::RunTest(const FString& Parameters)
 {
@@ -123,7 +124,7 @@ bool FMoqBlueprintLibraryBytesToStringInvalidUTF8Test::RunTest(const FString& Pa
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryRoundTripTest, "UnrealMoQ.BlueprintLibrary.RoundTrip", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryRoundTripTest, "UnrealMoQ.BlueprintLibrary.RoundTrip", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryRoundTripTest::RunTest(const FString& Parameters)
 {
@@ -137,7 +138,7 @@ bool FMoqBlueprintLibraryRoundTripTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryRoundTripUnicodeTest, "UnrealMoQ.BlueprintLibrary.RoundTripUnicode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqBlueprintLibraryRoundTripUnicodeTest, "UnrealMoQ.BlueprintLibrary.RoundTripUnicode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqBlueprintLibraryRoundTripUnicodeTest::RunTest(const FString& Parameters)
 {

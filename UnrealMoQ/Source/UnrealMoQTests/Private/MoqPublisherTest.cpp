@@ -2,9 +2,9 @@
 
 #include "MoqPublisher.h"
 #include "MoqClient.h"
-#include "Misc/AutomationTest.h"
+#include "MoqAutomationTestFlags.h"
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherConstructionTest, "UnrealMoQ.Publisher.Construction", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherConstructionTest, "UnrealMoQ.Publisher.Construction", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherConstructionTest::RunTest(const FString& Parameters)
 {
@@ -16,7 +16,7 @@ bool FMoqPublisherConstructionTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataWithoutInitTest, "UnrealMoQ.Publisher.PublishData.WithoutInit", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataWithoutInitTest, "UnrealMoQ.Publisher.PublishData.WithoutInit", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishDataWithoutInitTest::RunTest(const FString& Parameters)
 {
@@ -35,7 +35,7 @@ bool FMoqPublisherPublishDataWithoutInitTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataEmptyDataTest, "UnrealMoQ.Publisher.PublishData.EmptyData", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataEmptyDataTest, "UnrealMoQ.Publisher.PublishData.EmptyData", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishDataEmptyDataTest::RunTest(const FString& Parameters)
 {
@@ -54,7 +54,7 @@ bool FMoqPublisherPublishDataEmptyDataTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataStreamModeTest, "UnrealMoQ.Publisher.PublishData.StreamMode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataStreamModeTest, "UnrealMoQ.Publisher.PublishData.StreamMode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishDataStreamModeTest::RunTest(const FString& Parameters)
 {
@@ -70,7 +70,7 @@ bool FMoqPublisherPublishDataStreamModeTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataDatagramModeTest, "UnrealMoQ.Publisher.PublishData.DatagramMode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataDatagramModeTest, "UnrealMoQ.Publisher.PublishData.DatagramMode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishDataDatagramModeTest::RunTest(const FString& Parameters)
 {
@@ -86,7 +86,7 @@ bool FMoqPublisherPublishDataDatagramModeTest::RunTest(const FString& Parameters
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataLargeDataTest, "UnrealMoQ.Publisher.PublishData.LargeData", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishDataLargeDataTest, "UnrealMoQ.Publisher.PublishData.LargeData", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishDataLargeDataTest::RunTest(const FString& Parameters)
 {
@@ -108,7 +108,7 @@ bool FMoqPublisherPublishDataLargeDataTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextWithoutInitTest, "UnrealMoQ.Publisher.PublishText.WithoutInit", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextWithoutInitTest, "UnrealMoQ.Publisher.PublishText.WithoutInit", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishTextWithoutInitTest::RunTest(const FString& Parameters)
 {
@@ -126,7 +126,7 @@ bool FMoqPublisherPublishTextWithoutInitTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextEmptyTextTest, "UnrealMoQ.Publisher.PublishText.EmptyText", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextEmptyTextTest, "UnrealMoQ.Publisher.PublishText.EmptyText", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishTextEmptyTextTest::RunTest(const FString& Parameters)
 {
@@ -144,7 +144,7 @@ bool FMoqPublisherPublishTextEmptyTextTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextValidTextTest, "UnrealMoQ.Publisher.PublishText.ValidText", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextValidTextTest, "UnrealMoQ.Publisher.PublishText.ValidText", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishTextValidTextTest::RunTest(const FString& Parameters)
 {
@@ -159,7 +159,7 @@ bool FMoqPublisherPublishTextValidTextTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextUnicodeTest, "UnrealMoQ.Publisher.PublishText.Unicode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextUnicodeTest, "UnrealMoQ.Publisher.PublishText.Unicode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishTextUnicodeTest::RunTest(const FString& Parameters)
 {
@@ -174,7 +174,7 @@ bool FMoqPublisherPublishTextUnicodeTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextStreamModeTest, "UnrealMoQ.Publisher.PublishText.StreamMode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextStreamModeTest, "UnrealMoQ.Publisher.PublishText.StreamMode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishTextStreamModeTest::RunTest(const FString& Parameters)
 {
@@ -189,7 +189,7 @@ bool FMoqPublisherPublishTextStreamModeTest::RunTest(const FString& Parameters)
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextDatagramModeTest, "UnrealMoQ.Publisher.PublishText.DatagramMode", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextDatagramModeTest, "UnrealMoQ.Publisher.PublishText.DatagramMode", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishTextDatagramModeTest::RunTest(const FString& Parameters)
 {
@@ -204,7 +204,7 @@ bool FMoqPublisherPublishTextDatagramModeTest::RunTest(const FString& Parameters
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextLongTextTest, "UnrealMoQ.Publisher.PublishText.LongText", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMoqPublisherPublishTextLongTextTest, "UnrealMoQ.Publisher.PublishText.LongText", MoqAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
 bool FMoqPublisherPublishTextLongTextTest::RunTest(const FString& Parameters)
 {

@@ -35,14 +35,14 @@ void UMoqPublisher::InitializeFromHandle(MoqPublisher* Handle)
 
 FMoqResult UMoqPublisher::PublishData(const TArray<uint8>& Data, EMoqDeliveryMode DeliveryMode)
 {
-	if (!PublisherHandle)
-	{
-		return FMoqResult(false, TEXT("Publisher not initialized"));
-	}
-
 	if (Data.Num() == 0)
 	{
 		return FMoqResult(false, TEXT("Cannot publish empty data"));
+	}
+
+	if (!PublisherHandle)
+	{
+		return FMoqResult(false, TEXT("Publisher not initialized"));
 	}
 
 	MoqDeliveryMode NativeDeliveryMode = (DeliveryMode == EMoqDeliveryMode::Datagram) ? MOQ_DELIVERY_DATAGRAM : MOQ_DELIVERY_STREAM;
@@ -68,14 +68,14 @@ FMoqResult UMoqPublisher::PublishData(const TArray<uint8>& Data, EMoqDeliveryMod
 
 FMoqResult UMoqPublisher::PublishText(const FString& Text, EMoqDeliveryMode DeliveryMode)
 {
-	if (!PublisherHandle)
-	{
-		return FMoqResult(false, TEXT("Publisher not initialized"));
-	}
-
 	if (Text.IsEmpty())
 	{
 		return FMoqResult(false, TEXT("Cannot publish empty text"));
+	}
+
+	if (!PublisherHandle)
+	{
+		return FMoqResult(false, TEXT("Publisher not initialized"));
 	}
 
 	// Convert to UTF-8
